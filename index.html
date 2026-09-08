@@ -135,6 +135,69 @@
       .relics { min-height: auto; grid-template-columns: 1fr; padding: 120px 7vw; gap: 75px; } .relic-art { height: 105vw; min-height: 420px; } .relic-copy h2 { font-size: 13vw; } .final-card { width: 88vw; padding: 62px 24px; } .final-card h2 { font-size: 13vw; } .final-card .actions { flex-direction: column; } footer { grid-template-columns: 70px 1fr auto; padding: 30px 4vw; } footer p:nth-of-type(2) { display: none; } .modal { padding: 65px 28px 50px; } .modal h2 { font-size: 47px; } .oath-text { font-size: 19px; }
     }
     @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; } }
+
+    /* Editorial redesign: a midnight poster system with the diagonal split and metadata rhythm of the references. */
+    :root { --ink: #050b14; --ink-soft: #0b1420; --bone: #f1eee8; --muted: #9aa3ad; --smoke: #65707c; --crimson: #a5091a; --crimson-bright: #e02b3b; --crimson-dark: #410611; --gold: #bd9a65; --gold-bright: #ebc17f; --line: #d5b57b42; }
+    body { background: #050b14; }
+    .page { background: radial-gradient(circle at 78% 10%, #29415a36, transparent 28%), #050b14; }
+    .grain { opacity: .035; }
+    .aura { background: radial-gradient(360px circle at var(--pointer-x) var(--pointer-y), #d3a46e24, transparent 72%); }
+    .header { height: 72px; grid-template-columns: 88px 1fr auto; border-bottom-color: #c0d0e019; background: linear-gradient(#050b14f2, #050b14a6 75%, transparent); }
+    .monogram { min-width: 72px; background: #07101b; border-right-color: #c0d0e022; }
+    .nav { gap: clamp(24px, 4vw, 62px); }
+    .nav button { color: #a9b4bf; letter-spacing: .22em; }
+    .nav button::after { background: var(--gold-bright); }
+    .header-cta { background: var(--crimson); }
+    .hero { height: 165vh; min-height: 900px; }
+    .hero-stage { background: radial-gradient(ellipse at 71% 40%, #9a271f39 0, transparent 18%), linear-gradient(115deg, #050b14, #091a2a 57%, #05090f); }
+    .hero-stage::before { z-index: -4; background: linear-gradient(90deg, #050b14f6 0%, #050b14c7 28%, transparent 72%), linear-gradient(140deg, transparent 0 39%, #d6d6d622 39.2% 56%, transparent 56.2%), linear-gradient(180deg, #050b145c, transparent 45%, #050b14f4); clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); }
+    .hero-stage::after { z-index: -3; right: -10vw; top: -16vh; width: 70vw; height: 140vh; transform: translate3d(0, var(--hero-shift), 0) rotate(12deg) scale(var(--hero-scale)); background: linear-gradient(125deg, transparent 0 39%, #a20a1d84 39.2% 53%, transparent 53.2%), repeating-linear-gradient(92deg, transparent 0 54px, #e0b77f12 55px, transparent 56px); clip-path: polygon(40% 0, 100% 0, 70% 100%, 0 100%); }
+    .hero-copy { top: 23vh; left: clamp(28px, 8vw, 150px); width: min(600px, 46vw); }
+    .hero h1 { color: #f6f2eb; font-size: clamp(76px, 8vw, 146px); letter-spacing: -.1em; }
+    .hero h1 em { color: #d91c31; }
+    .hero-deck { max-width: 390px; color: #c3ced8; font-size: 20px; }
+    .primary { background: #a30a1b; border-color: #f1c48359; }
+    .primary:hover { background: var(--bone); color: #07101b; }
+    .knight-panels { right: clamp(18px, 6vw, 120px); width: min(46vw, 700px); }
+    .knight-panel { border-color: #d9b37670; background-color: #07101b; }
+    .knight-panel.backplate { background-image: linear-gradient(145deg, #a20a1ce8, #270510 72%), repeating-linear-gradient(135deg, transparent 0 24px, #e6b8731f 25px, transparent 26px); }
+    .knight-panel.frontplate { background-image: linear-gradient(135deg, #f1c47a18, transparent 38%, #c10c2847), repeating-linear-gradient(90deg, transparent 0 31px, #efc38217 32px, transparent 33px); }
+    .hero-folio { right: 8vw; bottom: 12vh; }
+    .section { padding: 170px 8vw; }
+    .prologue { background: radial-gradient(ellipse at 10% 54%, #a20a1d1f, transparent 31%), linear-gradient(#050b14, #0a1723 46%, #050b14); }
+    .prologue::before { color: #90a5b814; }
+    .prologue .lead { max-width: 1160px; color: #f0eee9; }
+    .columns p { color: #b1bdc7; }
+    blockquote { border-left-color: var(--crimson-bright); color: #edf0ef; }
+    .realm { background: #06101b; }
+    .realm-stage { background: linear-gradient(125deg, #071522, #0b1d2b 54%, #050b14); }
+    .realm-stage::before { background: radial-gradient(ellipse at 67% 36%, #d28b4540, transparent 13%), linear-gradient(140deg, transparent 0 44%, #d7d7d71c 44.2% 59%, transparent 59.2%), linear-gradient(90deg, #050b14ed, #050b1455 40%, transparent 76%), linear-gradient(180deg, #050b14aa, transparent 34%, #050b14eb); }
+    .mountain { background: linear-gradient(150deg, transparent 25%, #182d3b 25.2% 34%, transparent 34.2%), linear-gradient(30deg, transparent 35%, #223b47 35.2% 52%, transparent 52.2%), linear-gradient(180deg, transparent, #050b14); }
+    .realm-card { border-color: #d0a56f5e; background: #081421e8; }
+    .laws { background: radial-gradient(circle at 82% 37%, #a40a161b, transparent 29%), linear-gradient(135deg, #050b14, #0c1c2a 58%, #050b14); }
+    .running { color: #b40b20; border-color: #b98c5539; }
+    .law-book { border-color: #b78a5368; background: #07111d; }
+    .tabs { background: #07111de8; }
+    .law-page { background: linear-gradient(135deg, #203346, #0a1018 60%); }
+    .relics { background: radial-gradient(ellipse at 76% 44%, #68050d20, transparent 34%), linear-gradient(#050b14, #0a1723 47%, #050b14); }
+    .relic-art { background: linear-gradient(145deg, #111b27, #04080d 63%); }
+    .finale { background: #050b14; }
+    .final-panel.left { background: linear-gradient(130deg, #190206, #a10814 52%, #370005); }
+    .final-panel.right { background: linear-gradient(220deg, #03070c, #142536 48%, #050b14); }
+    .final-card { border-color: #d0a87064; background: #050b14d9; }
+    footer { background: #050b14; }
+    @media (max-width: 760px) {
+      .header { height: 66px; grid-template-columns: 66px 1fr; }
+      .monogram { min-width: 66px; }
+      .hero { height: 145vh; min-height: 900px; }
+      .hero-copy { top: 18vh; left: 7vw; width: 86vw; }
+      .hero h1 { font-size: clamp(67px, 19vw, 116px); }
+      .hero-stage::before { background: linear-gradient(90deg, #050b14f5, #050b14a8), linear-gradient(140deg, transparent 0 43%, #d6d6d626 43.2% 63%, transparent 63.2%); }
+      .knight-panels { right: -8vw; width: 89vw; }
+      .section { padding: 120px 7vw; }
+      .realm-stage { background: linear-gradient(145deg, #071522, #0b1d2b 60%, #050b14); }
+      .final-panel { width: 72%; }
+    }
   </style>
 </head>
 <body>
