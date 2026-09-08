@@ -23,6 +23,8 @@
       --sans: "Trebuchet MS", Arial, sans-serif;
       --pointer-x: 50vw;
       --pointer-y: 50vh;
+      --knight-x: 0deg;
+      --knight-y: 0deg;
       --progress: 0;
     }
     * { box-sizing: border-box; }
@@ -31,6 +33,8 @@
     button { border: 0; color: inherit; font: inherit; cursor: pointer; }
     button:focus-visible { outline: 2px solid var(--gold-bright); outline-offset: 5px; }
     ::selection { color: #fff7ec; background: var(--crimson); }
+    .skip-link { position: fixed; z-index: 200; left: 18px; top: -60px; padding: 12px 16px; background: var(--bone); color: #210206; font-size: 11px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; transition: top .2s ease; }
+    .skip-link:focus { top: 18px; }
     .page { overflow: clip; background: radial-gradient(circle at 20% 12%, #4f000b22, transparent 25%), var(--ink); }
     .grain { position: fixed; z-index: 100; inset: 0; pointer-events: none; opacity: .055; background-image: repeating-radial-gradient(circle at 17% 32%, #fff 0 .55px, transparent .8px 3px), repeating-radial-gradient(circle at 82% 68%, #000 0 .7px, transparent 1px 4px); background-size: 8px 9px, 11px 13px; mix-blend-mode: soft-light; }
     .aura { position: fixed; z-index: 99; inset: 0; pointer-events: none; background: radial-gradient(260px circle at var(--pointer-x) var(--pointer-y), #c7955630, transparent 72%); mix-blend-mode: screen; }
@@ -53,8 +57,8 @@
     .hero-stage { position: sticky; top: 0; height: 100vh; min-height: 650px; overflow: hidden; isolation: isolate; background: radial-gradient(ellipse at 74% 40%, #5d131a 0, transparent 20%), linear-gradient(115deg, #050606, #1a0809 52%, #070707); }
     .hero-stage::before { content: ""; position: absolute; z-index: -4; inset: 0; background: linear-gradient(90deg, #050606f4 0%, #050606c8 28%, transparent 72%), linear-gradient(180deg, #05060655, transparent 45%, #050606f0); }
     .hero-stage::after { content: ""; position: absolute; z-index: -3; right: -16vw; top: -14vh; width: 65vw; height: 135vh; transform: rotate(11deg); background: linear-gradient(125deg, transparent 0 38%, #7a06145c 39%, #270006d9 58%, transparent 59%), repeating-linear-gradient(92deg, transparent 0 46px, #e0b77f12 47px, transparent 48px); clip-path: polygon(39% 0, 100% 0, 71% 100%, 0 100%); }
-    .knight-panels { position: absolute; z-index: 1; right: clamp(18px, 4vw, 88px); top: 50%; width: min(47vw, 710px); height: min(84vh, 880px); transform: translateY(-48%); pointer-events: none; }
-    .knight-panel { position: absolute; overflow: hidden; border: 1px solid #d7a66b69; background-color: #0b0707; background-image: linear-gradient(145deg, #05050524, #7d061238), url("./knight.png"); background-repeat: no-repeat; background-size: cover; box-shadow: 0 30px 65px #0009; }
+    .knight-panels { position: absolute; z-index: 1; right: clamp(18px, 4vw, 88px); top: 50%; width: min(47vw, 710px); height: min(84vh, 880px); transform: translateY(-48%) perspective(1400px) rotateX(var(--knight-y)) rotateY(var(--knight-x)); transform-style: preserve-3d; transition: transform .2s ease-out; pointer-events: none; }
+    .knight-panel { position: absolute; overflow: hidden; border: 1px solid #d7a66b69; background-color: #0b0707; background-image: linear-gradient(145deg, #05050524, #7d061238), url("./knight.webp"); background-repeat: no-repeat; background-size: cover; box-shadow: 0 30px 65px #0009; }
     .knight-panel::before { content: ""; position: absolute; inset: 12px; border: 1px solid #e5bc8050; }
     .knight-panel::after { content: ""; position: absolute; inset: 0; background: linear-gradient(150deg, #0a060880, transparent 45%, #c8934c1c); mix-blend-mode: screen; }
     .knight-panel span { position: absolute; z-index: 2; left: 20px; bottom: 16px; color: #e1bd87; font-size: 8px; font-weight: 800; letter-spacing: .22em; text-transform: uppercase; }
@@ -64,6 +68,11 @@
     .knight-panel.front::before { inset: 16px; border-color: #e9c4868a; }
     .knight-mark { position: absolute; z-index: 3; top: 18px; right: 20px; color: #f3d3a1; font: 46px/.7 var(--serif); text-shadow: 0 3px 12px #000; }
     .knight-caption { position: absolute; z-index: 4; right: 0; bottom: -32px; padding: 12px 18px; border-top: 1px solid var(--line); background: #090909d9; color: #a99378; font-size: 8px; font-weight: 800; letter-spacing: .2em; text-transform: uppercase; }
+    .knight-dossier { position: absolute; z-index: 5; left: -13%; bottom: 12%; width: 185px; padding: 17px 17px 14px; border: 1px solid #c99c6454; background: #090909d9; box-shadow: 0 20px 50px #0008; color: #bcae9d; transform: translateZ(45px); }
+    .knight-dossier::before { content: ""; position: absolute; left: 0; top: 0; width: 45px; height: 2px; background: var(--crimson-bright); box-shadow: 0 0 12px #cf0c1d; }
+    .knight-dossier p { margin: 0 0 13px; color: var(--gold-bright); font-size: 8px; font-weight: 900; letter-spacing: .2em; text-transform: uppercase; }
+    .knight-dossier dl { display: grid; grid-template-columns: 1fr auto; gap: 8px 12px; margin: 0; font: 10px/1.2 var(--serif); }
+    .knight-dossier dt { color: #716960; } .knight-dossier dd { margin: 0; color: #e2d4c2; text-align: right; }
     .hero-copy { position: absolute; z-index: 4; top: 20vh; left: clamp(28px, 7.5vw, 145px); width: min(590px, 47vw); transform: translateY(calc(var(--scroll-y, 0px) * -.28)); transition: opacity .1s linear; }
     .hero h1 { display: flex; flex-direction: column; margin: 30px 0 0; color: #f4ecdf; font: 500 clamp(76px, 8.4vw, 150px)/.67 var(--serif); letter-spacing: -.08em; text-transform: uppercase; text-shadow: 0 8px 42px #000; }
     .hero h1 small { margin: 0 0 6px 7px; color: var(--gold); font: 800 11px/1 var(--sans); letter-spacing: .58em; }
@@ -104,7 +113,7 @@
     .reveal { opacity: 0; transform: translateY(35px); transition: opacity .8s ease, transform .8s cubic-bezier(.16,1,.3,1); } .reveal.visible { opacity: 1; transform: none; }
     @media (max-width: 760px) {
       .header { height: 66px; grid-template-columns: 66px 1fr; } .nav { justify-content: flex-end; padding-right: 18px; gap: 15px; } .nav button { padding: 23px 0 20px; font-size: 8px; letter-spacing: .1em; } .nav button:nth-child(2), .nav button:nth-child(4), .header-cta { display: none; } .monogram { min-width: 66px; }
-      .hero { height: 145vh; min-height: 900px; } .hero-copy { z-index: 5; top: 19vh; left: 7vw; width: 86vw; } .hero h1 { width: 90%; font-size: clamp(68px, 20vw, 118px); } .hero h1 em { align-self: flex-start; margin-left: 12vw; } .hero-deck { width: 82vw; font-size: 18px; } .actions { align-items: flex-start; flex-direction: column; gap: 12px; } .hero-folio { display: none; } .scroll-cue { left: auto; right: 5vw; transform: none; } .knight-panels { right: -8vw; top: 62%; width: 89vw; height: 58vh; opacity: .45; } .knight-panel.back, .knight-panel.mid { display: none; } .knight-panel.front { width: 82%; height: 100%; } .knight-caption { display: none; }
+      .hero { height: 145vh; min-height: 900px; } .hero-copy { z-index: 5; top: 19vh; left: 7vw; width: 86vw; } .hero h1 { width: 90%; font-size: clamp(68px, 20vw, 118px); } .hero h1 em { align-self: flex-start; margin-left: 12vw; } .hero-deck { width: 82vw; font-size: 18px; } .actions { align-items: flex-start; flex-direction: column; gap: 12px; } .hero-folio { display: none; } .scroll-cue { left: auto; right: 5vw; transform: none; } .knight-panels { right: -8vw; top: 62%; width: 89vw; height: 58vh; opacity: .45; } .knight-panel.back, .knight-panel.mid, .knight-dossier { display: none; } .knight-panel.front { width: 82%; height: 100%; } .knight-caption { display: none; }
       .section { padding: 115px 7vw; } .prologue { min-height: auto; } .prologue .lead { margin: 65px 0 85px; font-size: 14vw; } .columns { grid-template-columns: 72px 1fr; gap: 24px; } .letter { width: 70px; font-size: 47px; } .columns p { font-size: 19px; } blockquote { grid-column: 1 / -1; margin-top: 30px; font-size: 23px; }
       .realm { min-height: 1300px; } .realm-stage { min-height: 650px; } .realm-copy { margin-left: 7vw; align-self: flex-start; margin-top: 18vh; } .realm-copy h2 { font-size: 16vw; } .realm-name { display: none; } .realm-card { left: 7vw; right: auto; bottom: 8vh; width: 86vw; padding: 27px 27px 0; } .realm-card > button { width: calc(100% + 54px); margin-left: -27px; padding: 0 27px; }
       .laws { min-height: auto; } .running { height: 65px; font-size: 29px; line-height: 65px; } .laws-intro { grid-template-columns: 1fr; gap: 38px; margin: 65px 0; } .laws-intro h2 { font-size: 14.5vw; } .law-book { grid-template-columns: 1fr; min-height: auto; } .tabs button { min-height: 96px; padding: 20px 24px; } .tabs button.active { padding-left: 32px; } .law-page { min-height: 520px; } .law { width: 88%; } .law-line { font-size: 10vw; }
@@ -114,7 +123,8 @@
   </style>
 </head>
 <body>
-  <div class="page">
+  <a class="skip-link" href="#content">Skip to the chronicle</a>
+  <main class="page" id="content">
     <div class="aura" aria-hidden="true"></div><div class="grain" aria-hidden="true"></div><div class="progress" aria-hidden="true"></div>
     <header class="header">
       <button class="monogram" data-scroll="gate" aria-label="Return to the gate"><span>C</span><i></i><span>O</span></button>
@@ -122,19 +132,18 @@
       <button class="header-cta" data-oath>Read the vow <b aria-hidden="true">↗</b></button>
     </header>
     <section class="hero" id="gate"><div class="hero-stage">
-      <div class="knight-panels" role="img" aria-label="A crimson-cloaked oathkeeper knight in layered ceremonial panels"><div class="knight-panel back"></div><div class="knight-panel mid"><span>713 A.R. · The keeper</span></div><div class="knight-panel front"><b class="knight-mark">I</b></div><div class="knight-caption">The keeper · sworn without witness</div></div>
+      <div class="knight-panels" role="img" aria-label="A crimson-cloaked oathkeeper knight in layered ceremonial panels"><div class="knight-panel back"></div><div class="knight-panel mid"><span>713 A.R. · The keeper</span></div><div class="knight-panel front"><b class="knight-mark">I</b></div><aside class="knight-dossier"><p>Keeper dossier</p><dl><dt>Vow</dt><dd>Unbroken</dd><dt>Watch</dt><dd>713 years</dd><dt>Witness</dt><dd>None</dd></dl></aside><div class="knight-caption">The keeper · sworn without witness</div></div>
       <div class="hero-copy"><p class="kicker">An original interactive chronicle</p><h1><small>The</small>Crimson<em>Oath</em></h1><p class="hero-deck">Before the crown was gold, it was a promise. Before the kingdom learned its name, one knight gave his.</p><div class="actions"><button class="primary" data-scroll="prologue">Begin the chronicle <i>↓</i></button><button class="text-link" data-oath>Open the oath —</button></div></div>
       <div class="hero-folio"><span>Folio</span><strong>I</strong><small>713 · A.R.</small></div><button class="scroll-cue" data-scroll="prologue">Descend<i><b></b></i></button>
     </div></section>
     <section class="section prologue" id="prologue"><p class="folio">Folio II · The debt of kings</p><p class="lead reveal">Some inherit kingdoms.<br>Others inherit the <em>debts</em><br>of those who built them.</p><div class="columns"><div class="letter reveal">W</div><p class="reveal">hen the bells of Caer Veyl ceased, no army stood at its gate. No enemy had crossed the bridge. The kingdom had simply forgotten the promise that made it worthy of surviving.</p><blockquote class="reveal">“A realm does not fall when its walls are taken. It falls when its word is worth less than its fear.”<cite>— The Keeper’s Testament</cite></blockquote></div></section>
     <section class="realm" id="realm"><div class="realm-stage"><div class="mountain"></div><div class="realm-name">CAER VEYL</div><div class="realm-copy"><p class="folio">Folio III · The realm</p><h2>A kingdom<br><em>above the clouds.</em></h2></div><aside class="realm-card"><span class="folio">03 / 07</span><p>Seven provinces kneel beneath these towers. One bridge binds them. And in the highest hall, an empty throne still waits for a promise strong enough to sit upon it.</p><div class="stats"><div><strong>713</strong><span>Years standing</span></div><div><strong>01</strong><span>Road inward</span></div><div><strong>00</strong><span>Kings remaining</span></div></div><button data-scroll="laws">Cross the bridge <b>→</b></button></aside></div></section>
-    <section class="section laws" id="laws"><div class="running"><span>HONOUR OUTLIVES THE CROWN&nbsp;&nbsp;·&nbsp;&nbsp;HONOUR OUTLIVES THE CROWN&nbsp;&nbsp;·&nbsp;&nbsp;HONOUR OUTLIVES THE CROWN&nbsp;&nbsp;·&nbsp;&nbsp;</span></div><div class="laws-intro"><h2>The oath was never<br>written for <em>easy days.</em></h2><p>It was made for the hour after applause ends—when duty remains, unseen and uncompromising.</p></div><div class="law-book"><div class="tabs" role="tablist" aria-label="The three laws"><button class="active" role="tab" aria-selected="true"><span>I</span><b>The hand may serve a crown.</b><i>↗</i></button><button role="tab" aria-selected="false"><span>II</span><b>Mercy is not surrender.</b><i>↗</i></button><button role="tab" aria-selected="false"><span>III</span><b>Names fade from the stone.</b><i>↗</i></button></div><div class="law-page" role="tabpanel" aria-live="polite"></div></div></section>
+    <section class="section laws" id="laws"><div class="running"><span>HONOUR OUTLIVES THE CROWN&nbsp;&nbsp;·&nbsp;&nbsp;HONOUR OUTLIVES THE CROWN&nbsp;&nbsp;·&nbsp;&nbsp;HONOUR OUTLIVES THE CROWN&nbsp;&nbsp;·&nbsp;&nbsp;</span></div><div class="laws-intro"><h2>The oath was never<br>written for <em>easy days.</em></h2><p>It was made for the hour after applause ends—when duty remains, unseen and uncompromising.</p></div><div class="law-book"><div class="tabs" role="tablist" aria-label="The three laws"><button class="active" id="law-tab-1" role="tab" aria-selected="true" aria-controls="law-panel"><span>I</span><b>The hand may serve a crown.</b><i>↗</i></button><button id="law-tab-2" role="tab" aria-selected="false" aria-controls="law-panel"><span>II</span><b>Mercy is not surrender.</b><i>↗</i></button><button id="law-tab-3" role="tab" aria-selected="false" aria-controls="law-panel"><span>III</span><b>Names fade from the stone.</b><i>↗</i></button></div><div class="law-page" id="law-panel" role="tabpanel" aria-live="polite" aria-labelledby="law-tab-1"></div></div></section>
     <section class="relics" id="relics"><div class="relic-art" role="img" aria-label="A ceremonial sword, crown, and sealed oath-scroll"></div><div class="relic-copy"><p class="folio">Folio V · What remains</p><h2 class="reveal">The king departed.<br>The throne remained.<br><em>The oath belonged<br>to neither.</em></h2><p class="reveal">Steel can be inherited. Gold can be stolen. A title may pass from one uncertain hand to another. But a promise belongs only to the person willing to keep it when keeping it costs more than breaking it.</p><button class="primary reveal" data-oath>Unseal the final folio <i>↗</i></button></div></section>
     <section class="finale" id="finale"><div class="final-panel left"></div><div class="final-panel right"></div><div class="final-card reveal"><p class="final-kicker">The last question</p><h2>Will you keep<br>what the crown <em>could not?</em></h2><p>The chronicle ends here. The measure of its words begins elsewhere.</p><div class="actions"><button class="primary" data-oath>Read the Crimson Oath <i>↗</i></button><button class="text-link" data-scroll="gate">Return to the gate ↑</button></div></div></section>
     <footer><div class="monogram"><span>C</span><i></i><span>O</span></div><p>An original digital chronicle</p><p>Forged in black · bound in crimson · remembered in gold</p><button data-scroll="gate">Top ↑</button></footer>
-  </div>
+  </main>
   <dialog id="oath"><div class="modal"><button class="close" data-close aria-label="Close the oath">×</button><p class="modal-label">THE FINAL FOLIO · VII</p><div class="modal-seal">CO</div><h2>The Crimson Oath</h2><p class="oath-text">I shall not ask the dark to spare me. I shall ask only that my word outlive it. What I guard, I guard without witness. What I promise, I carry beyond praise or blame. Let the crown be lost before the oath is broken.</p><button class="seal-button">Set your seal</button><small>A promise is measured after the hall is empty.</small></div></dialog>
-  </div>
   <script>
     (() => {
       const $ = (selector, root = document) => root.querySelector(selector);
@@ -151,9 +160,19 @@
       const renderLaw = index => {
         const [numeral, line, body] = laws[index];
         panel.innerHTML = '<article class="law"><span class="law-num">' + numeral + '</span><p class="law-line">' + line + '</p><p class="law-body">' + body + '</p><div class="seal">CO</div></article>';
+        panel.setAttribute('aria-labelledby', tabs[index].id);
         tabs.forEach((tab, i) => { const active = i === index; tab.classList.toggle('active', active); tab.setAttribute('aria-selected', active); tab.tabIndex = active ? 0 : -1; });
       };
-      tabs.forEach((tab, index) => tab.addEventListener('click', () => renderLaw(index)));
+      tabs.forEach((tab, index) => {
+        tab.addEventListener('click', () => renderLaw(index));
+        tab.addEventListener('keydown', event => {
+          if (!['ArrowDown', 'ArrowUp', 'Home', 'End'].includes(event.key)) return;
+          event.preventDefault();
+          const next = event.key === 'Home' ? 0 : event.key === 'End' ? tabs.length - 1 : (index + (event.key === 'ArrowDown' ? 1 : -1) + tabs.length) % tabs.length;
+          tabs[next].focus();
+          renderLaw(next);
+        });
+      });
       renderLaw(0);
       const dialog = $('#oath'), sealButton = $('.seal-button'), seal = $('.modal-seal');
       $$('[data-oath]').forEach(button => button.addEventListener('click', () => dialog.showModal()));
@@ -167,7 +186,7 @@
       $$('.reveal').forEach(element => reveal.observe(element));
       let ticking = false;
       const update = () => { const max = document.documentElement.scrollHeight - innerHeight; document.documentElement.style.setProperty('--progress', max ? scrollY / max : 0); document.documentElement.style.setProperty('--scroll-y', scrollY + 'px'); ticking = false; };
-      addEventListener('scroll', () => { if (!ticking) { requestAnimationFrame(update); ticking = true; } }, { passive: true }); addEventListener('pointermove', event => { document.documentElement.style.setProperty('--pointer-x', event.clientX + 'px'); document.documentElement.style.setProperty('--pointer-y', event.clientY + 'px'); }, { passive: true }); update();
+      addEventListener('scroll', () => { if (!ticking) { requestAnimationFrame(update); ticking = true; } }, { passive: true }); addEventListener('pointermove', event => { const x = (event.clientX / innerWidth - .5) * 2; const y = (event.clientY / innerHeight - .5) * 2; document.documentElement.style.setProperty('--pointer-x', event.clientX + 'px'); document.documentElement.style.setProperty('--pointer-y', event.clientY + 'px'); document.documentElement.style.setProperty('--knight-x', (x * 2.2) + 'deg'); document.documentElement.style.setProperty('--knight-y', (y * -1.4) + 'deg'); }, { passive: true }); update();
     })();
   </script>
 </body>
