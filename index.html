@@ -40,6 +40,7 @@
     * { box-sizing: border-box; }
     html { background: var(--ink); color: var(--bone); scroll-behavior: smooth; scrollbar-color: var(--crimson) #090909; }
     body { margin: 0; overflow-x: hidden; background: var(--ink); color: var(--bone); font-family: var(--sans); }
+    section[id] { scroll-margin-top: 84px; }
     button { border: 0; color: inherit; font: inherit; cursor: pointer; }
     button:focus-visible { outline: 2px solid var(--gold-bright); outline-offset: 5px; }
     ::selection { color: #fff7ec; background: var(--crimson); }
@@ -124,7 +125,7 @@
     @media (max-width: 760px) {
       .header { height: 66px; grid-template-columns: 66px 1fr; } .nav { justify-content: flex-end; padding-right: 18px; gap: 15px; } .nav button { padding: 23px 0 20px; font-size: 8px; letter-spacing: .1em; } .nav button:nth-child(2), .nav button:nth-child(4), .header-cta { display: none; } .monogram { min-width: 66px; }
       .hero { height: 145vh; min-height: 900px; } .hero-copy { z-index: 5; top: 19vh; left: 7vw; width: 86vw; } .hero h1 { width: 90%; font-size: clamp(68px, 20vw, 118px); } .hero h1 em { align-self: flex-start; margin-left: 12vw; } .hero-deck { width: 82vw; font-size: 18px; } .actions { align-items: flex-start; flex-direction: column; gap: 12px; } .hero-folio { display: none; } .scroll-cue { left: auto; right: 5vw; transform: none; } .knight-panels { right: -8vw; top: 62%; width: 89vw; height: 58vh; opacity: .45; } .knight-panel.back, .knight-panel.mid, .knight-dossier { display: none; } .knight-panel.front { width: 82%; height: 100%; } .knight-caption { display: none; }
-      .section { padding: 115px 7vw; } .prologue { min-height: auto; } .prologue .lead { margin: 65px 0 85px; font-size: 14vw; } .columns { grid-template-columns: 72px 1fr; gap: 24px; } .letter { width: 70px; font-size: 47px; } .columns p { font-size: 19px; } blockquote { grid-column: 1 / -1; margin-top: 30px; font-size: 23px; }
+      section[id] { scroll-margin-top: 72px; } .section { padding: 115px 7vw; } .prologue { min-height: auto; } .prologue .lead { margin: 65px 0 85px; font-size: 14vw; } .columns { grid-template-columns: 72px 1fr; gap: 24px; } .letter { width: 70px; font-size: 47px; } .columns p { font-size: 19px; } blockquote { grid-column: 1 / -1; margin-top: 30px; font-size: 23px; }
       .realm { min-height: 1300px; } .realm-stage { min-height: 650px; } .realm-copy { margin-left: 7vw; align-self: flex-start; margin-top: 18vh; } .realm-copy h2 { font-size: 16vw; } .realm-name { display: none; } .realm-card { left: 7vw; right: auto; bottom: 8vh; width: 86vw; padding: 27px 27px 0; } .realm-card > button { width: calc(100% + 54px); margin-left: -27px; padding: 0 27px; }
       .laws { min-height: auto; } .running { height: 65px; font-size: 29px; line-height: 65px; } .laws-intro { grid-template-columns: 1fr; gap: 38px; margin: 65px 0; } .laws-intro h2 { font-size: 14.5vw; } .law-book { grid-template-columns: 1fr; min-height: auto; } .tabs button { min-height: 96px; padding: 20px 24px; } .tabs button.active { padding-left: 32px; } .law-page { min-height: 520px; } .law { width: 88%; } .law-line { font-size: 10vw; }
       .relics { min-height: auto; grid-template-columns: 1fr; padding: 120px 7vw; gap: 75px; } .relic-art { height: 105vw; min-height: 420px; } .relic-copy h2 { font-size: 13vw; } .final-card { width: 88vw; padding: 62px 24px; } .final-card h2 { font-size: 13vw; } .final-card .actions { flex-direction: column; } footer { grid-template-columns: 70px 1fr auto; padding: 30px 4vw; } footer p:nth-of-type(2) { display: none; } .modal { padding: 65px 28px 50px; } .modal h2 { font-size: 47px; } .oath-text { font-size: 19px; }
@@ -153,7 +154,7 @@
     <section class="finale" id="finale"><div class="final-panel left"></div><div class="final-panel right"></div><div class="final-card reveal"><p class="final-kicker">The last question</p><h2>Will you keep<br>what the crown <em>could not?</em></h2><p>The chronicle ends here. The measure of its words begins elsewhere.</p><div class="actions"><button class="primary" data-oath>Read the Crimson Oath <i>↗</i></button><button class="text-link" data-scroll="gate">Return to the gate ↑</button></div></div></section>
     <footer><div class="monogram"><span>C</span><i></i><span>O</span></div><p>An original digital chronicle</p><p>Forged in black · bound in crimson · remembered in gold</p><button data-scroll="gate">Top ↑</button></footer>
   </main>
-  <dialog id="oath"><div class="modal"><button class="close" data-close aria-label="Close the oath">×</button><p class="modal-label">THE FINAL FOLIO · VII</p><div class="modal-seal">CO</div><h2>The Crimson Oath</h2><p class="oath-text">I shall not ask the dark to spare me. I shall ask only that my word outlive it. What I guard, I guard without witness. What I promise, I carry beyond praise or blame. Let the crown be lost before the oath is broken.</p><button class="seal-button">Set your seal</button><small>A promise is measured after the hall is empty.</small></div></dialog>
+  <dialog id="oath" aria-labelledby="oath-title" aria-describedby="oath-copy"><div class="modal"><button class="close" data-close aria-label="Close the oath">×</button><p class="modal-label">THE FINAL FOLIO · VII</p><div class="modal-seal">CO</div><h2 id="oath-title">The Crimson Oath</h2><p class="oath-text" id="oath-copy">I shall not ask the dark to spare me. I shall ask only that my word outlive it. What I guard, I guard without witness. What I promise, I carry beyond praise or blame. Let the crown be lost before the oath is broken.</p><button class="seal-button">Set your seal</button><small>A promise is measured after the hall is empty.</small></div></dialog>
   <script>
     (() => {
       const $ = (selector, root = document) => root.querySelector(selector);
@@ -185,9 +186,13 @@
       });
       renderLaw(0);
       const dialog = $('#oath'), sealButton = $('.seal-button'), seal = $('.modal-seal');
-      $$('[data-oath]').forEach(button => button.addEventListener('click', () => dialog.showModal()));
-      $('[data-close]').addEventListener('click', () => dialog.close());
-      dialog.addEventListener('click', event => { if (event.target === dialog) dialog.close(); });
+      let oathOrigin;
+      const openOath = event => { oathOrigin = event.currentTarget; dialog.showModal(); $('[data-close]').focus(); };
+      const closeOath = () => { dialog.close(); oathOrigin?.focus(); };
+      $$('[data-oath]').forEach(button => button.addEventListener('click', openOath));
+      $('[data-close]').addEventListener('click', closeOath);
+      dialog.addEventListener('click', event => { if (event.target === dialog) closeOath(); });
+      dialog.addEventListener('close', () => oathOrigin?.focus());
       sealButton.addEventListener('click', () => { sealButton.disabled = true; sealButton.textContent = 'The oath is sealed'; seal.classList.add('sealed'); sealButton.nextElementSibling.textContent = 'Your word now stands without witness.'; });
       const sections = $$('section[id]'), nav = $$('.nav button');
       const observer = new IntersectionObserver(entries => { const visible = entries.filter(entry => entry.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0]; if (visible) nav.forEach(button => button.classList.toggle('active', button.dataset.scroll === visible.target.id)); }, { rootMargin: '-38% 0px -50%', threshold: [0, .2, .5] });
