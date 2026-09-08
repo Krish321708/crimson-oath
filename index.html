@@ -14,7 +14,7 @@
 <a class="skip-link" href="#prologue">Skip to the chronicle</a>
 <header class="header">
   <a class="brand" href="#gate" aria-label="Crimson Oath, return to the gate"><span class="brand-mark">C<span>O</span></span><span class="brand-name">CRIMSON OATH</span></a>
-  <nav aria-label="Chronicle navigation"><a href="#gate" aria-current="location">The Gate</a><a href="#realm">The Realm</a><a href="#laws">The Oath</a><a href="#relics">The Relics</a></nav>
+  <nav aria-label="Chronicle navigation"><a href="#gate" aria-current="location">The Gate</a><a href="#realm">The Realm</a><a href="#laws">The Oath</a><a href="#relics">The Relics</a><a href="#trial">The Trial</a></nav>
   <button class="header-vow" data-oath>Read the vow <span aria-hidden="true">↗</span></button>
 </header>
 <div class="progress" aria-hidden="true"></div>
@@ -80,7 +80,15 @@
     </div>
   </section>
 
-  <section class="finale" id="finale" aria-labelledby="finale-title"><div class="final-plane" aria-hidden="true"></div><div class="final-copy reveal"><p class="eyebrow">05 / The final folio</p><h2 id="finale-title">Honour outlives<br>the <em>crown.</em></h2><p>Will you keep what the crown could not?</p><button class="button" data-oath>Read the Crimson Oath <span aria-hidden="true">↗</span></button></div><div class="final-foot"><span>The chronicle ends here. The promise begins elsewhere.</span><a href="#gate">Return to the gate ↑</a></div></section>
+  <section class="chapter trial" id="trial" aria-labelledby="trial-title">
+    <div class="section-label"><span>05 / The trial</span><span>Ten seals. Thirty seconds.</span></div>
+    <div class="trial-layout">
+      <div class="trial-copy reveal"><h2 id="trial-title">The blade<br>does not <em>wait.</em></h2><p>Hit the glowing seal before it fades. Ten clean strikes completes the oathkeeper trial.</p><div class="trial-actions"><button class="button" id="trial-start">Begin the trial <span aria-hidden="true">↗</span></button><button class="plain-link" id="trial-reset">Reset score</button></div></div>
+      <div class="trial-board reveal"><div class="trial-hud"><div><span>Score</span><strong id="trial-score">0</strong></div><div><span>Time</span><strong id="trial-time">30</strong></div><div><span>Streak</span><strong id="trial-streak">0</strong></div></div><div class="trial-arena" aria-label="Oathkeeper reaction trial"><div class="trial-lanes" aria-hidden="true"><span></span><span></span><span></span></div><button class="trial-target" id="trial-target" type="button" aria-label="Strike the glowing seal" hidden></button></div><div class="trial-readout"><span id="trial-state">Idle. Start when ready.</span><p id="trial-message">A clean strike scores one point. Misses break the streak.</p></div></div>
+    </div>
+  </section>
+
+  <section class="finale" id="finale" aria-labelledby="finale-title"><div class="final-plane" aria-hidden="true"></div><div class="final-copy reveal"><p class="eyebrow">06 / The final folio</p><h2 id="finale-title">Honour outlives<br>the <em>crown.</em></h2><p>Will you keep what the crown could not?</p><button class="button" data-oath>Read the Crimson Oath <span aria-hidden="true">↗</span></button></div><div class="final-foot"><span>The chronicle ends here. The promise begins elsewhere.</span><a href="#gate">Return to the gate ↑</a></div></section>
 </main>
 <footer><a class="brand" href="#gate"><span class="brand-mark" aria-hidden="true">C<span>O</span></span><span>CRIMSON OATH</span></a><p>An original digital chronicle</p><p>Bound in crimson. Remembered in gold.</p></footer>
 <dialog id="oath" aria-labelledby="oath-title" aria-describedby="oath-copy"><div class="modal"><button class="close" data-close aria-label="Close the oath">×</button><p class="eyebrow">The final folio</p><div class="modal-seal" aria-hidden="true">CO</div><h2 id="oath-title">The Crimson Oath</h2><p id="oath-copy">I shall not ask the dark to spare me. I shall ask only that my word outlive it. What I guard, I guard without witness. What I promise, I carry beyond praise or blame. Let the crown be lost before the oath is broken.</p><button class="button seal-button">Set your seal</button><p class="seal-status" role="status">A promise is measured after the hall is empty.</p></div></dialog>

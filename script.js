@@ -66,6 +66,126 @@
     $('.seal-status').textContent = 'Your word now stands without witness.';
   });
 
+  const trial = {
+    active: false,
+    score: 0,
+    streak: 0,
+    hitsNeeded: 10,
+    timeLeft: 30,
+    clockTimer: null,
+    hideTimer: null,
+    positionTimer: null
+  };
+  const trialTarget = $('#trial-target');
+  const trialScore = $('#trial-score');
+  const trialTime = $('#trial-time');
+  const trialStreak = $('#trial-streak');
+  const trialState = $('#trial-state');
+  const trialMessage = $('#trial-message');
+  const trialStart = $('#trial-start');
+  const trialReset = $('#trial-reset');
+  function updateTrialHud() {
+    trialScore.textContent = trial.score;
+    trialTime.textContent = trial.timeLeft;
+    trialStreak.textContent = trial.streak;
+  }
+  function clearTrialTimers() {
+    clearInterval(trial.clockTimer);
+    clearTimeout(trial.hideTimer);
+    clearTimeout(trial.positionTimer);
+    trial.clockTimer = trial.hideTimer = trial.positionTimer = null;
+  }
+  function clearTrialTarget() {
+    trialTarget.classList.remove('ready', 'hit', 'miss');
+    trialTarget.hidden = true;
+    trialTarget.style.left = '50%';
+    trialTarget.style.top = '50%';
+  }
+  function stopTrial(text) {
+    trial.active = false;
+    clearTrialTimers();
+    clearTrialTarget();
+    trialState.textContent = text;
+    trialStart.textContent = 'Begin the trial';
+  }
+  function resetTrial() {
+    trial.score = 0;
+    trial.streak = 0;
+    trial.timeLeft = 30;
+    stopTrial('Idle. Start when ready.');
+    updateTrialHud();
+    trialMessage.textContent = 'A clean strike scores one point. Misses break the streak.';
+  }
+  function spawnTrialTarget() {
+    if (!trial.active) return;
+    const arena = $('.trial-arena');
+    const laneWidth = arena.clientWidth / 3;
+    const lane = Math.floor(Math.random() * 3);
+    trialTarget.hidden = false;
+    trialTarget.style.left = laneWidth * lane + laneWidth / 2 + 'px';
+    trialTarget.style.top = 22 + Math.random() * 48 + '%';
+    trialTarget.classList.remove('hit', 'miss');
+    trialTarget.classList.add('ready');
+    trialState.textContent = 'Strike now.';
+    clearTimeout(trial.hideTimer);
+    trial.hideTimer = setTimeout(() => {
+      if (!trial.active || !trialTarget.classList.contains('ready')) return;
+      trial.streak = 0;
+      updateTrialHud();
+      trialTarget.classList.remove('ready');
+      trialTarget.classList.add('miss');
+      trialState.textContent = 'The target slipped away.';
+      trialMessage.textContent = 'Too slow. The seal faded.';
+      trial.positionTimer = setTimeout(() => {
+        clearTrialTarget();
+        spawnTrialTarget();
+      }, 240);
+    }, 1250);
+  }
+  function winTrial() {
+    trial.active = false;
+    clearTrialTimers();
+    clearTrialTarget();
+    trialState.textContent = 'Victory.';
+    trialMessage.textContent = 'Ten clean strikes. The keeper would approve.';
+    trialStart.textContent = 'Replay trial';
+  }
+  trialTarget.addEventListener('click', () => {
+    if (!trial.active || !trialTarget.classList.contains('ready')) return;
+    trial.score += 1;
+    trial.streak += 1;
+    updateTrialHud();
+    trialTarget.classList.remove('ready');
+    trialTarget.classList.add('hit');
+    trialState.textContent = trial.score >= trial.hitsNeeded ? 'The oath is kept.' : 'Keep moving.';
+    trialMessage.textContent = trial.score >= trial.hitsNeeded ? 'The seals are broken. You held the line.' : 'Clean strike. Another seal rises.';
+    clearTimeout(trial.hideTimer);
+    trial.positionTimer = setTimeout(() => {
+      clearTrialTarget();
+      if (trial.score >= trial.hitsNeeded) winTrial();
+      else spawnTrialTarget();
+    }, 190);
+  });
+  trialStart.addEventListener('click', () => {
+    resetTrial();
+    trial.active = true;
+    trialStart.textContent = 'Restart trial';
+    trialState.textContent = 'The seal has awakened.';
+    trialMessage.textContent = 'Find the glowing seal before it fades.';
+    spawnTrialTarget();
+    trial.clockTimer = setInterval(() => {
+      if (!trial.active) return;
+      trial.timeLeft = Math.max(0, trial.timeLeft - 1);
+      updateTrialHud();
+      if (trial.timeLeft === 0) {
+        trialMessage.textContent = 'The seal closed before the last strike.';
+        stopTrial('Out of time.');
+      }
+    }, 1000);
+  });
+  trialReset.addEventListener('click', resetTrial);
+  resetTrial();
+
   if ('IntersectionObserver' in window) {
     const revealObserver = new IntersectionObserver(entries => {
       entries.forEach(entry => {
