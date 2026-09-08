@@ -1,0 +1,1 @@
+# crimson-oath\n\n> An interactive fantasy chronicle about honour, memory, duty, and a promise that outlives the crown—built as a cinematic single-page experience.\n
