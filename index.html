@@ -1,12 +1,162 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="refresh" content="0; url=main.html" />
-    <title>The Crimson Oath</title>
-  </head>
-  <body>
-    <p>Opening <a href="main.html">The Crimson Oath</a>…</p>
-  </body>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#050606">
+  <meta name="description" content="The Crimson Oath — an interactive chronicle of honour, memory, and duty.">
+  <title>The Crimson Oath</title>
+  <style>
+    :root {
+      --ink: #050606;
+      --ink-soft: #0b0c0c;
+      --bone: #eee5d7;
+      --muted: #a69a8d;
+      --smoke: #6e6861;
+      --crimson: #a50712;
+      --crimson-bright: #d10b1a;
+      --crimson-dark: #430006;
+      --gold: #c4945b;
+      --gold-bright: #e0b77f;
+      --line: #c99c6445;
+      --serif: Georgia, "Times New Roman", serif;
+      --sans: "Trebuchet MS", Arial, sans-serif;
+      --pointer-x: 50vw;
+      --pointer-y: 50vh;
+      --progress: 0;
+    }
+    * { box-sizing: border-box; }
+    html { background: var(--ink); color: var(--bone); scroll-behavior: smooth; scrollbar-color: var(--crimson) #090909; }
+    body { margin: 0; overflow-x: hidden; background: var(--ink); color: var(--bone); font-family: var(--sans); }
+    button { border: 0; color: inherit; font: inherit; cursor: pointer; }
+    button:focus-visible { outline: 2px solid var(--gold-bright); outline-offset: 5px; }
+    ::selection { color: #fff7ec; background: var(--crimson); }
+    .page { overflow: clip; background: radial-gradient(circle at 20% 12%, #4f000b22, transparent 25%), var(--ink); }
+    .grain { position: fixed; z-index: 100; inset: 0; pointer-events: none; opacity: .055; background-image: repeating-radial-gradient(circle at 17% 32%, #fff 0 .55px, transparent .8px 3px), repeating-radial-gradient(circle at 82% 68%, #000 0 .7px, transparent 1px 4px); background-size: 8px 9px, 11px 13px; mix-blend-mode: soft-light; }
+    .aura { position: fixed; z-index: 99; inset: 0; pointer-events: none; background: radial-gradient(260px circle at var(--pointer-x) var(--pointer-y), #c7955630, transparent 72%); mix-blend-mode: screen; }
+    .progress { position: fixed; z-index: 110; inset: 0 0 auto auto; width: 3px; height: 100vh; transform: scaleY(var(--progress)); transform-origin: top; background: linear-gradient(var(--gold-bright), var(--crimson-bright)); box-shadow: 0 0 18px #d30b1c99; }
+    .header { position: fixed; z-index: 90; inset: 0 0 auto; height: 78px; display: grid; grid-template-columns: 92px 1fr auto; border-bottom: 1px solid #d9b2772b; background: linear-gradient(#050606ef, #050606a6 75%, transparent); backdrop-filter: blur(13px); }
+    .monogram { position: relative; display: grid; place-items: center; min-width: 78px; background: #080909; border-right: 1px solid #d9b27735; color: var(--bone); font: 19px var(--serif); letter-spacing: -.12em; }
+    .monogram::before, .monogram::after { content: ""; position: absolute; inset: 17px 27px; border: 1px solid #b98a516d; transform: rotate(45deg); transition: .5s ease; }
+    .monogram::after { inset: 22px 32px; border-color: #ae0712aa; transform: rotate(-45deg); }
+    .monogram:hover::before { transform: rotate(135deg); } .monogram:hover::after { transform: rotate(-135deg); }
+    .monogram span, .monogram i { position: relative; z-index: 2; } .monogram i { width: 1px; height: 19px; background: var(--crimson-bright); transform: rotate(22deg); }
+    .nav { display: flex; align-items: center; justify-content: center; gap: clamp(22px, 3vw, 58px); }
+    .nav button { position: relative; padding: 28px 2px 24px; background: transparent; color: #b7afa4; font-size: 11px; font-weight: 700; letter-spacing: .19em; text-transform: uppercase; }
+    .nav button::after { content: ""; position: absolute; left: 50%; bottom: 14px; width: 0; height: 1px; background: var(--crimson-bright); transform: translateX(-50%); transition: width .35s ease; }
+    .nav button:hover, .nav button.active { color: var(--bone); } .nav button.active::after { width: 100%; }
+    .header-cta { display: flex; align-items: center; gap: 38px; padding: 0 30px; background: #8f0710; color: #fff6e9; font-size: 11px; font-weight: 800; letter-spacing: .17em; text-transform: uppercase; }
+    .header-cta:hover { background: #b40815; }
+    .kicker, .folio, .final-kicker { display: flex; align-items: center; gap: 14px; color: var(--gold-bright); font-size: 10px; font-weight: 800; letter-spacing: .24em; text-transform: uppercase; }
+    .kicker::before, .folio::before, .final-kicker::before { content: ""; display: block; width: 36px; height: 1px; background: var(--crimson-bright); box-shadow: 0 0 8px #cf0c1d; }
+    .hero { position: relative; height: 170vh; min-height: 920px; }
+    .hero-stage { position: sticky; top: 0; height: 100vh; min-height: 650px; overflow: hidden; isolation: isolate; background: radial-gradient(ellipse at 74% 40%, #5d131a 0, transparent 20%), linear-gradient(115deg, #050606, #1a0809 52%, #070707); }
+    .hero-stage::before { content: ""; position: absolute; z-index: -4; inset: 0; background: linear-gradient(90deg, #050606f4 0%, #050606c8 28%, transparent 72%), linear-gradient(180deg, #05060655, transparent 45%, #050606f0); }
+    .hero-stage::after { content: ""; position: absolute; z-index: -3; right: -16vw; top: -14vh; width: 65vw; height: 135vh; transform: rotate(11deg); background: linear-gradient(125deg, transparent 0 38%, #7a06145c 39%, #270006d9 58%, transparent 59%), repeating-linear-gradient(92deg, transparent 0 46px, #e0b77f12 47px, transparent 48px); clip-path: polygon(39% 0, 100% 0, 71% 100%, 0 100%); }
+    .hero-copy { position: absolute; z-index: 4; top: 20vh; left: clamp(28px, 7.5vw, 145px); width: min(590px, 47vw); transform: translateY(calc(var(--scroll-y, 0px) * -.28)); transition: opacity .1s linear; }
+    .hero h1 { display: flex; flex-direction: column; margin: 30px 0 0; color: #f4ecdf; font: 500 clamp(76px, 8.4vw, 150px)/.67 var(--serif); letter-spacing: -.08em; text-transform: uppercase; text-shadow: 0 8px 42px #000; }
+    .hero h1 small { margin: 0 0 6px 7px; color: var(--gold); font: 800 11px/1 var(--sans); letter-spacing: .58em; }
+    .hero h1 em { align-self: flex-end; margin-right: -.13em; color: #ab0713; font-size: 1.12em; font-style: normal; line-height: .92; }
+    .hero h1 em::after { content: ""; display: block; height: 2px; margin: 0 .06em; background: linear-gradient(90deg, transparent, #cb1830, transparent); }
+    .hero-deck { max-width: 440px; margin: 42px 0 34px 4px; color: #d7cdbf; font: 21px/1.48 var(--serif); }
+    .actions { display: flex; align-items: center; gap: 30px; margin-left: 4px; }
+    .primary { display: flex; align-items: center; justify-content: space-between; gap: 30px; min-width: 220px; height: 57px; padding: 0 22px; border: 1px solid #bb8c5369; background: #850710; color: #fff7e9; font-size: 10px; font-weight: 900; letter-spacing: .18em; text-transform: uppercase; transition: .35s ease; }
+    .primary:hover { background: var(--bone); color: #250207; } .primary i { color: var(--gold-bright); font-size: 17px; font-style: normal; }
+    .text-link { padding: 10px 0; border-bottom: 1px solid #c298625c; background: transparent; color: #d7c7b2; font: italic 17px var(--serif); }
+    .text-link:hover { color: #fff; border-color: var(--crimson-bright); }
+    .hero-folio { position: absolute; right: 7vw; bottom: 11vh; display: grid; grid-template-columns: auto auto; gap: 0 13px; color: #e5d7c6; }
+    .hero-folio span { align-self: end; padding-bottom: 9px; color: var(--gold); font-size: 9px; letter-spacing: .28em; text-transform: uppercase; } .hero-folio strong { grid-row: 1 / 3; grid-column: 2; font: 400 68px/.8 var(--serif); } .hero-folio small { color: #817970; font-size: 8px; letter-spacing: .22em; }
+    .scroll-cue { position: absolute; z-index: 4; left: 50%; bottom: 23px; display: flex; flex-direction: column; align-items: center; gap: 11px; transform: translateX(-50%); background: transparent; color: #afa397; font-size: 8px; font-weight: 800; letter-spacing: .3em; text-transform: uppercase; }
+    .scroll-cue i { position: relative; width: 1px; height: 42px; overflow: hidden; background: #ffffff25; } .scroll-cue b { position: absolute; inset: 0 0 auto; height: 18px; background: var(--gold-bright); animation: descend 2s ease-in-out infinite; } @keyframes descend { 0%,100% { transform: translateY(-20px); } 70% { transform: translateY(45px); } }
+    .section { position: relative; padding: 150px 8vw; overflow: hidden; }
+    .prologue { min-height: 125vh; background: radial-gradient(ellipse at 10% 54%, #92071322, transparent 31%), linear-gradient(#050606, #0c0a09 44%, #050606); }
+    .prologue::before { content: "II"; position: absolute; right: -.03em; top: 4vh; color: #a2071112; font: 49vw/1 var(--serif); letter-spacing: -.16em; }
+    .prologue::after { content: ""; position: absolute; left: 50%; top: 0; width: 1px; height: 95px; background: linear-gradient(var(--crimson), var(--gold), transparent); }
+    .prologue .lead { position: relative; z-index: 2; max-width: 1180px; margin: 85px auto 120px; color: #e9dfd1; font: 400 clamp(53px, 6.6vw, 120px)/.95 var(--serif); letter-spacing: -.045em; } .lead em { color: var(--crimson-bright); }
+    .columns { position: relative; z-index: 2; max-width: 1100px; margin-left: auto; display: grid; grid-template-columns: 120px 1fr 1fr; gap: clamp(35px, 5vw, 90px); }
+    .letter { width: 108px; aspect-ratio: 1; display: grid; place-items: center; border: 1px solid #c692526e; background: linear-gradient(145deg, #9e0714, #310006); box-shadow: 0 25px 80px #000, inset 0 0 0 8px #08070780; color: #e3bd86; font: 76px var(--serif); }
+    .columns p { margin: 0; color: #c2b8aa; font: 22px/1.75 var(--serif); } blockquote { margin: 0; padding-left: 33px; border-left: 1px solid #a57846; color: #eee4d5; font: italic 28px/1.42 var(--serif); } blockquote cite { display: block; margin-top: 27px; color: #9a8170; font: 800 9px var(--sans); letter-spacing: .2em; text-transform: uppercase; }
+    .realm { min-height: 150vh; padding: 0; background: #070707; } .realm-stage { position: sticky; top: 0; min-height: 720px; height: 100vh; display: flex; align-items: center; }
+    .realm-stage::before { content: ""; position: absolute; inset: 0; background: radial-gradient(ellipse at 66% 36%, #d28b4540, transparent 13%), linear-gradient(90deg, #050606e8, #05060655 40%, transparent 76%), linear-gradient(180deg, #050606aa, transparent 34%, #050606e8); }
+    .mountain { position: absolute; z-index: -1; inset: 20% 0 0; background: linear-gradient(150deg, transparent 25%, #191615 25.2% 34%, transparent 34.2%), linear-gradient(30deg, transparent 35%, #2a1713 35.2% 52%, transparent 52.2%), linear-gradient(180deg, transparent, #060606); clip-path: polygon(0 42%, 18% 22%, 33% 38%, 46% 13%, 65% 37%, 83% 20%, 100% 40%, 100% 100%, 0 100%); }
+    .realm-name { position: absolute; left: -8vw; bottom: 5vh; white-space: nowrap; color: transparent; font: 18vw/.7 var(--serif); letter-spacing: -.07em; -webkit-text-stroke: 1px #e8cfad34; }
+    .realm-copy { position: relative; z-index: 2; margin-left: 8vw; } .realm-copy h2, .laws h2, .relic-copy h2, .finale h2 { margin: 23px 0 0; color: #f0e7da; font: 400 clamp(58px, 6.1vw, 112px)/.91 var(--serif); letter-spacing: -.052em; } h2 em { color: var(--crimson-bright); font-style: normal; }
+    .realm-card { position: absolute; right: 6vw; bottom: 10vh; width: min(470px, 36vw); padding: 34px 39px 0; border: 1px solid #d0a56f45; background: #111212d9; box-shadow: 0 35px 100px #000c; backdrop-filter: blur(16px); } .realm-card p { margin: 25px 0 28px; color: #d6cbbd; font: 20px/1.55 var(--serif); } .stats { display: grid; grid-template-columns: repeat(3, 1fr); padding: 24px 0; border-top: 1px solid #ffffff17; } .stats strong { display: block; font: 28px var(--serif); } .stats span { display: block; margin-top: 4px; color: #82796f; font-size: 7px; letter-spacing: .13em; text-transform: uppercase; } .realm-card > button { width: calc(100% + 78px); height: 62px; margin-left: -39px; display: flex; justify-content: space-between; align-items: center; padding: 0 39px; background: #870812; color: #f8eee0; font-size: 10px; font-weight: 900; letter-spacing: .18em; text-transform: uppercase; }
+    .laws { min-height: 130vh; background: radial-gradient(circle at 82% 37%, #a40a161b, transparent 29%), linear-gradient(135deg, #050606, #100d0c 58%, #050606); } .running { position: absolute; inset: 0 0 auto; height: 84px; overflow: hidden; border-block: 1px solid #b98c5539; color: #9d0712; font: 42px/84px var(--serif); white-space: nowrap; } .running span { display: block; width: max-content; animation: run 28s linear infinite; } @keyframes run { to { transform: translateX(-50%); } }
+    .laws-intro { display: grid; grid-template-columns: 1fr 330px; gap: 70px; align-items: end; margin: 70px auto 90px; max-width: 1460px; } .laws-intro p { margin: 0 0 6px; padding-left: 27px; border-left: 1px solid var(--crimson); color: #aa9f92; font: 20px/1.65 var(--serif); }
+    .law-book { max-width: 1460px; min-height: 570px; margin: auto; display: grid; grid-template-columns: 43% 57%; border: 1px solid #b78a5352; box-shadow: 0 50px 120px #000a; } .tabs { display: flex; flex-direction: column; background: #090a0ae8; } .tabs button { flex: 1; display: grid; grid-template-columns: 48px 1fr 30px; gap: 17px; align-items: center; padding: 28px 34px; border-bottom: 1px solid #b78a5326; background: transparent; color: #82796f; text-align: left; transition: .4s ease; } .tabs button span { color: var(--gold); font: 34px var(--serif); } .tabs button b { font: 22px var(--serif); font-weight: 400; } .tabs button i { opacity: 0; font-style: normal; } .tabs button.active { padding-left: 46px; background: linear-gradient(90deg, #7d0610, #330207); color: #fff1dd; } .tabs button.active i { opacity: 1; }
+    .law-page { display: grid; place-items: center; overflow: hidden; background: linear-gradient(135deg, #2c1710, #0b0b0b 60%); } .law-page::before { content: ""; position: absolute; width: 45%; height: 74%; border: 1px solid #c29b6961; } .law { position: relative; width: 72%; padding: 70px 25px; text-align: center; animation: appear .45s ease; } .law-num { position: absolute; left: 50%; top: 50%; color: #a70a1614; font: 390px/1 var(--serif); transform: translate(-50%, -50%); } .law-line { position: relative; margin: 0 0 35px; color: #f0dfc8; font: italic clamp(36px, 3.2vw, 59px)/1.08 var(--serif); } .law-body { position: relative; max-width: 490px; margin: auto; color: #a89c8d; font: 18px/1.72 var(--serif); } .seal { width: 54px; height: 54px; display: grid; place-items: center; margin: 42px auto 0; border: 1px solid #e0b57990; border-radius: 50%; background: #8b0711; box-shadow: inset 0 0 0 5px #400006, 0 6px 18px #0009; color: #e8c690; font: 13px var(--serif); } @keyframes appear { from { opacity: 0; transform: translateY(24px); filter: blur(6px); } to { opacity: 1; transform: none; filter: none; } }
+    .relics { position: relative; min-height: 140vh; display: grid; grid-template-columns: 55% 45%; align-items: center; gap: 5vw; padding: 180px 7vw; overflow: hidden; background: radial-gradient(ellipse at 76% 44%, #68050d20, transparent 34%), linear-gradient(#050606, #0b0908 47%, #050606); } .relic-art { position: relative; z-index: 2; height: min(66vw, 760px); border: 1px solid #b98b5461; background: radial-gradient(ellipse at 55% 55%, #d29a5b 0 1%, transparent 2%), radial-gradient(ellipse at 50% 58%, #720714 0 8%, transparent 8.5%), linear-gradient(145deg, #2a1914, #070707 55%); box-shadow: 0 70px 150px #000; } .relic-art::before { content: ""; position: absolute; left: 38%; top: 11%; width: 8%; height: 82%; transform: rotate(18deg); background: linear-gradient(90deg, #42352b, #e0c39e 49%, #2a201a 52%); clip-path: polygon(40% 0, 60% 0, 100% 100%, 0 100%); box-shadow: 0 0 30px #d5a15d5c; } .relic-art::after { content: "CO"; position: absolute; right: 12%; bottom: 12%; width: 100px; height: 100px; display: grid; place-items: center; border: 1px solid #c8985e; border-radius: 50%; color: #d8b27b; font: 25px var(--serif); box-shadow: inset 0 0 0 10px #400006; } .relic-copy { position: relative; z-index: 3; } .relic-copy p { max-width: 520px; margin: 48px 0; color: #b5aa9c; font: 20px/1.72 var(--serif); }
+    .finale { position: relative; min-height: 105vh; display: grid; place-items: center; overflow: hidden; background: #050606; } .final-panel { position: absolute; inset-block: 0; width: 61%; } .left { left: 0; clip-path: polygon(0 0, 100% 0, 73% 100%, 0 100%); background: linear-gradient(130deg, #190206, #a10814 52%, #370005); } .right { right: 0; clip-path: polygon(27% 0, 100% 0, 100% 100%, 0 100%); background: linear-gradient(220deg, #030303, #191512 48%, #060606); } .final-card { width: min(1000px, 80vw); padding: 85px; border: 1px solid #d0a87054; background: #050606c4; box-shadow: 0 50px 150px #000; text-align: center; backdrop-filter: blur(14px); } .final-kicker { justify-content: center; } .final-card p { margin: 38px 0 44px; color: #b5a99b; font: 19px var(--serif); } .final-card .actions { justify-content: center; }
+    footer { min-height: 150px; display: grid; grid-template-columns: 100px 1fr 1fr auto; align-items: center; gap: 30px; padding: 0 5vw; border-top: 1px solid #b48a5733; background: var(--ink); color: #756e66; font-size: 8px; font-weight: 800; letter-spacing: .2em; text-transform: uppercase; } footer button { background: transparent; color: var(--gold); font-size: 9px; letter-spacing: .2em; }
+    dialog { width: min(780px, 90vw); padding: 0; border: 0; background: transparent; color: var(--bone); } dialog::backdrop { background: #020303e8; backdrop-filter: blur(20px); } .modal { position: relative; padding: 74px 95px 68px; border: 1px solid #c59a625e; background: linear-gradient(145deg, #1d1511, #080909 58%); box-shadow: 0 80px 200px #000; text-align: center; } .close { position: absolute; right: 25px; top: 18px; background: transparent; color: #a99a89; font: 31px var(--serif); } .modal-label { color: var(--gold); font-size: 9px; font-weight: 800; letter-spacing: .28em; } .modal-seal { width: 68px; height: 68px; display: grid; place-items: center; margin: 35px auto 27px; border: 1px solid #e0b57990; border-radius: 50%; background: #8b0711; box-shadow: inset 0 0 0 6px #400006; color: #e8c690; font: 16px var(--serif); transition: .6s ease; } .modal-seal.sealed { transform: rotate(-12deg) scale(1.1); box-shadow: inset 0 0 0 6px #400006, 0 0 45px #bd0a185c; } .modal h2 { margin: 0 0 30px; color: #f0e1cd; font: 400 64px var(--serif); letter-spacing: -.04em; } .oath-text { margin: 0 auto 36px; color: #d1c3b2; font: italic 23px/1.72 var(--serif); } .seal-button { min-width: 205px; height: 52px; border: 1px solid #b88a536b; background: #920812; color: #fff0dd; font-size: 9px; font-weight: 900; letter-spacing: .22em; text-transform: uppercase; } .seal-button:disabled { background: #211912; color: var(--gold-bright); cursor: default; } .modal small { display: block; margin-top: 22px; color: #766c62; font: italic 14px var(--serif); }
+    .reveal { opacity: 0; transform: translateY(35px); transition: opacity .8s ease, transform .8s cubic-bezier(.16,1,.3,1); } .reveal.visible { opacity: 1; transform: none; }
+    @media (max-width: 760px) {
+      .header { height: 66px; grid-template-columns: 66px 1fr; } .nav { justify-content: flex-end; padding-right: 18px; gap: 15px; } .nav button { padding: 23px 0 20px; font-size: 8px; letter-spacing: .1em; } .nav button:nth-child(2), .nav button:nth-child(4), .header-cta { display: none; } .monogram { min-width: 66px; }
+      .hero { height: 145vh; min-height: 900px; } .hero-copy { top: 19vh; left: 7vw; width: 86vw; } .hero h1 { width: 90%; font-size: clamp(68px, 20vw, 118px); } .hero h1 em { align-self: flex-start; margin-left: 12vw; } .hero-deck { width: 82vw; font-size: 18px; } .actions { align-items: flex-start; flex-direction: column; gap: 12px; } .hero-folio { display: none; } .scroll-cue { left: auto; right: 5vw; transform: none; }
+      .section { padding: 115px 7vw; } .prologue { min-height: auto; } .prologue .lead { margin: 65px 0 85px; font-size: 14vw; } .columns { grid-template-columns: 72px 1fr; gap: 24px; } .letter { width: 70px; font-size: 47px; } .columns p { font-size: 19px; } blockquote { grid-column: 1 / -1; margin-top: 30px; font-size: 23px; }
+      .realm { min-height: 1300px; } .realm-stage { min-height: 650px; } .realm-copy { margin-left: 7vw; align-self: flex-start; margin-top: 18vh; } .realm-copy h2 { font-size: 16vw; } .realm-name { display: none; } .realm-card { left: 7vw; right: auto; bottom: 8vh; width: 86vw; padding: 27px 27px 0; } .realm-card > button { width: calc(100% + 54px); margin-left: -27px; padding: 0 27px; }
+      .laws { min-height: auto; } .running { height: 65px; font-size: 29px; line-height: 65px; } .laws-intro { grid-template-columns: 1fr; gap: 38px; margin: 65px 0; } .laws-intro h2 { font-size: 14.5vw; } .law-book { grid-template-columns: 1fr; min-height: auto; } .tabs button { min-height: 96px; padding: 20px 24px; } .tabs button.active { padding-left: 32px; } .law-page { min-height: 520px; } .law { width: 88%; } .law-line { font-size: 10vw; }
+      .relics { min-height: auto; grid-template-columns: 1fr; padding: 120px 7vw; gap: 75px; } .relic-art { height: 105vw; min-height: 420px; } .relic-copy h2 { font-size: 13vw; } .final-card { width: 88vw; padding: 62px 24px; } .final-card h2 { font-size: 13vw; } .final-card .actions { flex-direction: column; } footer { grid-template-columns: 70px 1fr auto; padding: 30px 4vw; } footer p:nth-of-type(2) { display: none; } .modal { padding: 65px 28px 50px; } .modal h2 { font-size: 47px; } .oath-text { font-size: 19px; }
+    }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; } }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="aura" aria-hidden="true"></div><div class="grain" aria-hidden="true"></div><div class="progress" aria-hidden="true"></div>
+    <header class="header">
+      <button class="monogram" data-scroll="gate" aria-label="Return to the gate"><span>C</span><i></i><span>O</span></button>
+      <nav class="nav" aria-label="Chronicle navigation"><button class="active" data-scroll="gate">The Gate</button><button data-scroll="realm">The Realm</button><button data-scroll="laws">The Oath</button><button data-scroll="relics">The Relics</button></nav>
+      <button class="header-cta" data-oath>Read the vow <b aria-hidden="true">↗</b></button>
+    </header>
+    <section class="hero" id="gate"><div class="hero-stage">
+      <div class="hero-copy"><p class="kicker">An original interactive chronicle</p><h1><small>The</small>Crimson<em>Oath</em></h1><p class="hero-deck">Before the crown was gold, it was a promise. Before the kingdom learned its name, one knight gave his.</p><div class="actions"><button class="primary" data-scroll="prologue">Begin the chronicle <i>↓</i></button><button class="text-link" data-oath>Open the oath —</button></div></div>
+      <div class="hero-folio"><span>Folio</span><strong>I</strong><small>713 · A.R.</small></div><button class="scroll-cue" data-scroll="prologue">Descend<i><b></b></i></button>
+    </div></section>
+    <section class="section prologue" id="prologue"><p class="folio">Folio II · The debt of kings</p><p class="lead reveal">Some inherit kingdoms.<br>Others inherit the <em>debts</em><br>of those who built them.</p><div class="columns"><div class="letter reveal">W</div><p class="reveal">hen the bells of Caer Veyl ceased, no army stood at its gate. No enemy had crossed the bridge. The kingdom had simply forgotten the promise that made it worthy of surviving.</p><blockquote class="reveal">“A realm does not fall when its walls are taken. It falls when its word is worth less than its fear.”<cite>— The Keeper’s Testament</cite></blockquote></div></section>
+    <section class="realm" id="realm"><div class="realm-stage"><div class="mountain"></div><div class="realm-name">CAER VEYL</div><div class="realm-copy"><p class="folio">Folio III · The realm</p><h2>A kingdom<br><em>above the clouds.</em></h2></div><aside class="realm-card"><span class="folio">03 / 07</span><p>Seven provinces kneel beneath these towers. One bridge binds them. And in the highest hall, an empty throne still waits for a promise strong enough to sit upon it.</p><div class="stats"><div><strong>713</strong><span>Years standing</span></div><div><strong>01</strong><span>Road inward</span></div><div><strong>00</strong><span>Kings remaining</span></div></div><button data-scroll="laws">Cross the bridge <b>→</b></button></aside></div></section>
+    <section class="section laws" id="laws"><div class="running"><span>HONOUR OUTLIVES THE CROWN&nbsp;&nbsp;·&nbsp;&nbsp;HONOUR OUTLIVES THE CROWN&nbsp;&nbsp;·&nbsp;&nbsp;HONOUR OUTLIVES THE CROWN&nbsp;&nbsp;·&nbsp;&nbsp;</span></div><div class="laws-intro"><h2>The oath was never<br>written for <em>easy days.</em></h2><p>It was made for the hour after applause ends—when duty remains, unseen and uncompromising.</p></div><div class="law-book"><div class="tabs" role="tablist" aria-label="The three laws"><button class="active" role="tab" aria-selected="true"><span>I</span><b>The hand may serve a crown.</b><i>↗</i></button><button role="tab" aria-selected="false"><span>II</span><b>Mercy is not surrender.</b><i>↗</i></button><button role="tab" aria-selected="false"><span>III</span><b>Names fade from the stone.</b><i>↗</i></button></div><div class="law-page" role="tabpanel" aria-live="polite"></div></div></section>
+    <section class="relics" id="relics"><div class="relic-art" role="img" aria-label="A ceremonial sword, crown, and sealed oath-scroll"></div><div class="relic-copy"><p class="folio">Folio V · What remains</p><h2 class="reveal">The king departed.<br>The throne remained.<br><em>The oath belonged<br>to neither.</em></h2><p class="reveal">Steel can be inherited. Gold can be stolen. A title may pass from one uncertain hand to another. But a promise belongs only to the person willing to keep it when keeping it costs more than breaking it.</p><button class="primary reveal" data-oath>Unseal the final folio <i>↗</i></button></div></section>
+    <section class="finale" id="finale"><div class="final-panel left"></div><div class="final-panel right"></div><div class="final-card reveal"><p class="final-kicker">The last question</p><h2>Will you keep<br>what the crown <em>could not?</em></h2><p>The chronicle ends here. The measure of its words begins elsewhere.</p><div class="actions"><button class="primary" data-oath>Read the Crimson Oath <i>↗</i></button><button class="text-link" data-scroll="gate">Return to the gate ↑</button></div></div></section>
+    <footer><div class="monogram"><span>C</span><i></i><span>O</span></div><p>An original digital chronicle</p><p>Forged in black · bound in crimson · remembered in gold</p><button data-scroll="gate">Top ↑</button></footer>
+  </div>
+  <dialog id="oath"><div class="modal"><button class="close" data-close aria-label="Close the oath">×</button><p class="modal-label">THE FINAL FOLIO · VII</p><div class="modal-seal">CO</div><h2>The Crimson Oath</h2><p class="oath-text">I shall not ask the dark to spare me. I shall ask only that my word outlive it. What I guard, I guard without witness. What I promise, I carry beyond praise or blame. Let the crown be lost before the oath is broken.</p><button class="seal-button">Set your seal</button><small>A promise is measured after the hall is empty.</small></div></dialog>
+  </div>
+  <script>
+    (() => {
+      const $ = (selector, root = document) => root.querySelector(selector);
+      const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
+      const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const laws = [
+        ['I', 'The soul serves only its word.', 'A command ends when the throne falls silent. A promise begins precisely there—when no eye remains to praise the keeping of it.'],
+        ['II', 'It is strength that has mastered itself.', 'Any sword can answer anger. The rarer courage is to hold power without becoming its prisoner, and to leave tomorrow more honourable than today.'],
+        ['III', 'Deeds remain in those they sheltered.', 'Glory begs to be remembered. Duty asks for nothing. The finest legacy is a world made safer by hands history never learned to applaud.']
+      ];
+      const scrollTo = id => document.getElementById(id)?.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' });
+      $$('[data-scroll]').forEach(button => button.addEventListener('click', () => scrollTo(button.dataset.scroll)));
+      const tabs = $$('.tabs button'), panel = $('.law-page');
+      const renderLaw = index => {
+        const [numeral, line, body] = laws[index];
+        panel.innerHTML = '<article class="law"><span class="law-num">' + numeral + '</span><p class="law-line">' + line + '</p><p class="law-body">' + body + '</p><div class="seal">CO</div></article>';
+        tabs.forEach((tab, i) => { const active = i === index; tab.classList.toggle('active', active); tab.setAttribute('aria-selected', active); tab.tabIndex = active ? 0 : -1; });
+      };
+      tabs.forEach((tab, index) => tab.addEventListener('click', () => renderLaw(index)));
+      renderLaw(0);
+      const dialog = $('#oath'), sealButton = $('.seal-button'), seal = $('.modal-seal');
+      $$('[data-oath]').forEach(button => button.addEventListener('click', () => dialog.showModal()));
+      $('[data-close]').addEventListener('click', () => dialog.close());
+      dialog.addEventListener('click', event => { if (event.target === dialog) dialog.close(); });
+      sealButton.addEventListener('click', () => { sealButton.disabled = true; sealButton.textContent = 'The oath is sealed'; seal.classList.add('sealed'); sealButton.nextElementSibling.textContent = 'Your word now stands without witness.'; });
+      const sections = $$('section[id]'), nav = $$('.nav button');
+      const observer = new IntersectionObserver(entries => { const visible = entries.filter(entry => entry.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0]; if (visible) nav.forEach(button => button.classList.toggle('active', button.dataset.scroll === visible.target.id)); }, { rootMargin: '-38% 0px -50%', threshold: [0, .2, .5] });
+      sections.forEach(section => observer.observe(section));
+      const reveal = new IntersectionObserver(entries => entries.forEach(entry => entry.isIntersecting && entry.target.classList.add('visible')), { threshold: .16 });
+      $$('.reveal').forEach(element => reveal.observe(element));
+      let ticking = false;
+      const update = () => { const max = document.documentElement.scrollHeight - innerHeight; document.documentElement.style.setProperty('--progress', max ? scrollY / max : 0); document.documentElement.style.setProperty('--scroll-y', scrollY + 'px'); ticking = false; };
+      addEventListener('scroll', () => { if (!ticking) { requestAnimationFrame(update); ticking = true; } }, { passive: true }); addEventListener('pointermove', event => { document.documentElement.style.setProperty('--pointer-x', event.clientX + 'px'); document.documentElement.style.setProperty('--pointer-y', event.clientY + 'px'); }, { passive: true }); update();
+    })();
+  </script>
+</body>
 </html>
