@@ -236,7 +236,7 @@ button:focus-visible {
   position: absolute;
   z-index: -5;
   inset: -8%;
-  background: url("/images/keeper-hero.webp") 52% center / cover no-repeat;
+  background: url("./images/keeper-hero.webp") 52% center / cover no-repeat;
   filter: saturate(0.86) contrast(1.09) brightness(0.78);
   transform-origin: 62% 56%;
   transform: translateY(var(--hero-offset, 0)) scale(var(--hero-scale, 1.03));
@@ -633,7 +633,7 @@ button:focus-visible {
   position: absolute;
   z-index: -4;
   inset: -7%;
-  background: url("/images/caer-veyl.webp") center center / cover no-repeat;
+  background: url("./images/caer-veyl.webp") center center / cover no-repeat;
   filter: saturate(0.76) brightness(0.62) contrast(1.12);
   transform: translateX(var(--realm-shift, 0)) scale(1.06);
   transform-origin: 70% 55%;
@@ -842,7 +842,7 @@ button:focus-visible {
   box-shadow: 0 70px 150px #000;
 }
 .relic-image-wrap::before { content: ""; position: absolute; z-index: 2; inset: 17px; background: linear-gradient(180deg, transparent 50%, #050606d9), linear-gradient(90deg, #05060654, transparent 35%); pointer-events: none; }
-.relic-image { width: 100%; height: 100%; background: url("/images/oath-relics.webp") 53% center / cover no-repeat; filter: saturate(0.8) contrast(1.07) brightness(0.74); }
+.relic-image { width: 100%; height: 100%; background: url("./images/oath-relics.webp") 53% center / cover no-repeat; filter: saturate(0.8) contrast(1.07) brightness(0.74); }
 .image-caption { position: absolute; z-index: 3; left: 42px; bottom: 42px; color: #b99d7e; font-size: 8px; font-weight: 800; letter-spacing: 0.22em; text-transform: uppercase; }
 
 .relic-copy { position: relative; z-index: 3; padding: 60px 2vw 0 0; }
